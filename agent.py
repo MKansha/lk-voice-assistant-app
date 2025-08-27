@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-
+import os
 from livekit import agents
 from livekit.agents import AgentSession, Agent, RoomInputOptions
 from livekit.plugins import (
@@ -29,12 +29,13 @@ class Assistant(Agent):
 
 async def entrypoint(ctx: agents.JobContext):
     session = AgentSession(
-    llm=google.beta.realtime.RealtimeModel(
-        model="gemini-2.0-flash-exp",
-        voice="Puck",
-        temperature=0.8,
-        instructions="You are a helpful assistant",
-    ),
+   llm = google.beta.realtime.RealtimeModel(
+    api_key=os.getenv("GOOGLE_API_KEY"),
+    model="gemini-2.0-flash-exp",
+    voice="Puck",
+    temperature=0.8,
+    instructions="You are a helpful assistant",
+),
     )
 
     await session.start(
